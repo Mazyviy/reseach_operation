@@ -7,7 +7,7 @@
 using namespace std;
 
 double fun(double x,double y){
-	return pow(M_E,(-(x+y)))*(1+cos(2*M_PI*(y/10))); 
+	return pow(M_E,(-(x+y)))*(1+cos(2*M_PI*(y/10)));
 }
 
 int main(){
@@ -19,7 +19,7 @@ int main(){
 	//Создание динамических массивов array-исходный массив, array_sum-массив сумм с верхнего правого угла, array_path-массив для выбора пути
 	double** array=new double* [row];
 	for(int i=0; i<row; i++){
-		array[i]=new double[col]; 
+		array[i]=new double[col];
 	}
 	double** array_sum=new double* [row];
 	for(int i=0; i<row; i++){
@@ -29,17 +29,17 @@ int main(){
 	for(int i=0; i<row; i++){
 		array_path[i]=new int[col];
 	}
-	
+
 	for(int i=row-1; i>=0; --i){
 		for(int j=0; j<col; ++j){
 			array[i][j]=fun((row-1)-i,j);
 		}
 	}
-	
+
 	array_sum[row-1][col-1]={0};
 	array_path[row-1][col-1]={-1};
 	array_sum[0][col-1]=array[0][col-1];//инициализируем правый верхний элемент матрицы, т.к. с него начнется подсчет
-	
+
 	for(int j=col-2; j>=0; --j){
 		array_sum[0][j]=array_sum[0][j+1]+array[0][j];
 		array_path[0][j]=1;
@@ -74,7 +74,7 @@ int main(){
 		cout<<endl;
 	}
 	cout<<endl;
-	cout << "W*: " << array_sum[row - 1][0] << endl << endl;//вывод длины пути
+	cout<< "W*: "<<array_sum[row-1][0]<<endl<<endl;//вывод длины пути
 	int i=row-1,j=0;
 	cout<<"Way: ";
 	/*
@@ -84,7 +84,7 @@ int main(){
 	*/
 	while(true){
 		cout<<"("<<i<<","<<j<<")-";
-		if(array_path[i][j]) ++j;  
+		if(array_path[i][j]) ++j;
 		else --i;
 		if(i==0 && j==col-1){
 			cout<<"(0,"<<col-1<<")"<<endl;
