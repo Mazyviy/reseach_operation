@@ -1,6 +1,6 @@
 ﻿// reseach_operation.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
-
+#define _USE_MATH_DEFINES
 #include <iostream>
 #include <math.h>
 #include <iomanip>
@@ -16,6 +16,7 @@ int main(){
 	cin>>row;
 	cout<<"Enter col: ";
 	cin>>col;
+	//Создание динамических массивов array-исходный массив, array_sum-массив сумм с верхнего правого угла, array_path-массив для выбора пути
 	double** array=new double* [row];
 	for(int i=0; i<row; i++){
 		array[i]=new double[col]; 
@@ -31,13 +32,13 @@ int main(){
 	
 	for(int i=row-1; i>=0; --i){
 		for(int j=0; j<col; ++j){
-			array[i][j]=fun(row-1-i,j);
+			array[i][j]=fun((row-1)-i,j);
 		}
 	}
 	
 	array_sum[row-1][col-1]={0};
 	array_path[row-1][col-1]={-1};
-	array_sum[0][col-1]=array[0][col-1];
+	array_sum[0][col-1]=array[0][col-1];//инициализируем правый верхний элемент матрицы, т.к. с него начнется подсчет
 	
 	for(int j=col-2; j>=0; --j){
 		array_sum[0][j]=array_sum[0][j+1]+array[0][j];
@@ -60,7 +61,7 @@ int main(){
 	cout<<"Array"<<endl;
 	for(int i=0; i<row; ++i){
 		for(int j=0; j<col; ++j){
-			cout<<fixed<<setw(10)<<setprecision(8)<<array[i][j]<<" ";
+			cout<<fixed<<setw(10)<<setprecision(8)<<array[i][j]<<" ";//setw()-установка ширины поля под число, setprecision()-количество цифр в дробной части
 		}
 		cout<<endl;
 	}
@@ -73,9 +74,14 @@ int main(){
 		cout<<endl;
 	}
 	cout<<endl;
-	cout<<"W*: "<<array_sum[row-1][0]<<endl<<endl;
+	cout << "W*: " << array_sum[row - 1][0] << endl << endl;//вывод длины пути
 	int i=row-1,j=0;
 	cout<<"Way: ";
+	/*
+	* Если не понятна работа можешь создать цикл на подобие (стр. 47-60),
+	* начиная с левого нижнего угла проверяя, какой элемент меньше верхний или правый.
+	* соответственно array_path уже нужен не будет
+	*/
 	while(true){
 		cout<<"("<<i<<","<<j<<")-";
 		if(array_path[i][j]) ++j;  
@@ -85,6 +91,7 @@ int main(){
 			break;
 		}
 	}
+	//удаление динамических массивов из памяти
 	for(int i=0; i<row; i++){
 		delete[] array[i];
 		delete[] array_sum[i];
@@ -93,5 +100,6 @@ int main(){
 	delete[] array;
 	delete[] array_sum;
 	delete[] array_path;
-}
 
+	return 0;
+}
