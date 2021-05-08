@@ -4,6 +4,8 @@
 #include <iostream>
 #include <math.h>
 #include <iomanip>
+constexpr auto text_style_color_start = "\x1b[32m";
+constexpr auto text_style_end = "\x1b[0m";
 using namespace std;
 
 double fun(double x,double y){
@@ -11,95 +13,109 @@ double fun(double x,double y){
 }
 
 int main(){
-	int row=0,col=0;
+	int row=0,col=0,i=0,j=0;
+
 	cout<<"Enter row: ";
 	cin>>row;
 	cout<<"Enter col: ";
 	cin>>col;
-	//Создание динамических массивов array-исходный массив, array_sum-массив сумм с верхнего правого угла, array_path-массив для выбора пути
+	cout << endl;
+
 	double** array=new double* [row];
-	for(int i=0; i<row; i++){
+	double** array_sum = new double* [row];
+	int** array_path = new int* [row];
+	for(i=0; i<row; i++){
 		array[i]=new double[col];
-	}
-	double** array_sum=new double* [row];
-	for(int i=0; i<row; i++){
-		array_sum[i]=new double[col];
-	}
-	int** array_path=new int* [row];
-	for(int i=0; i<row; i++){
-		array_path[i]=new int[col];
+		array_sum[i] = new double[col];
+		array_path[i] = new int[col];
 	}
 
-	for(int i=row-1; i>=0; --i){
-		for(int j=0; j<col; ++j){
+	for(i=row-1; i>=0; --i){
+		for(j=0; j<col; ++j){
 			array[i][j]=fun((row-1)-i,j);
+			array_path[i][j] = 0;
 		}
 	}
 
-	array_sum[row-1][col-1]={0};
-	array_path[row-1][col-1]={-1};
-	array_sum[0][col-1]=array[0][col-1];//инициализируем правый верхний элемент матрицы, т.к. с него начнется подсчет
+	array_sum[0][col - 1] = array[0][col - 1];
 
-	for(int j=col-2; j>=0; --j){
+	for(j=col-2; j>=0; --j){
 		array_sum[0][j]=array_sum[0][j+1]+array[0][j];
-		array_path[0][j]=1;
 	}
-	for(int i=1; i<row; ++i){
+	for(i=1; i<row; ++i){
 		array_sum[i][col-1]=array_sum[i-1][col-1]+array[i][col-1];
-		array_path[i][col-1]=0;
-		for(int j=col-2; j>=0; --j){
+		for(j=col-2; j>=0; --j){
 			if(array_sum[i-1][j]<=array_sum[i][j+1]){
 				array_sum[i][j]=array[i][j]+array_sum[i-1][j];
-				array_path[i][j]=0;
 			}
 			else{
 				array_sum[i][j]=array[i][j]+array_sum[i][j+1];
-				array_path[i][j]=1;
 			}
 		}
 	}
-	cout<<"Array"<<endl;
-	for(int i=0; i<row; ++i){
-		for(int j=0; j<col; ++j){
-			cout<<fixed<<setw(10)<<setprecision(8)<<array[i][j]<<" ";//setw()-установка ширины поля под число, setprecision()-количество цифр в дробной части
+
+	cout << "Array" << endl;
+	for (i = 0; i < row; ++i) {
+		for (j = 0; j < col; ++j) {
+			cout << fixed << setw(10) << setprecision(8) << array[i][j] << " ";
 		}
-		cout<<endl;
+		cout << endl;
 	}
-	cout<<endl;
-	cout<<"Array_sum"<<endl;
-	for(int i=0; i<row; ++i){
-		for(int j=0; j<col; ++j){
-			cout<<fixed<<setw(10)<<setprecision(8)<<array_sum[i][j]<<" ";
+	cout << endl;
+	cout <<"Array_sum" <<endl;
+	for (i = 0; i < row; ++i) {
+		for (j = 0; j < col; ++j) {
+			cout << fixed << setw(10) << setprecision(8) << array_sum[i][j] << " ";
 		}
-		cout<<endl;
+		cout << endl;
 	}
-	cout<<endl;
-	cout<< "W*: "<<array_sum[row-1][0]<<endl<<endl;//вывод длины пути
-	int i=row-1,j=0;
-	cout<<"Way: ";
-	/*
-	* Если не понятна работа можешь создать цикл на подобие (стр. 47-60),
-	* начиная с левого нижнего угла проверяя, какой элемент меньше верхний или правый.
-	* соответственно array_path уже нужен не будет
-	*/
-	while(true){
-		cout<<"("<<i<<","<<j<<")-";
-		if(array_path[i][j]) ++j;
-		else --i;
-		if(i==0 && j==col-1){
-			cout<<"(0,"<<col-1<<")"<<endl;
+	cout << endl;
+
+	j = 0;
+	i = row-1;
+
+	cout << "Way: " << array_sum[row - 1][0] << endl;
+	cout <<"(" << i << "," << j << ")";
+	while (true) {
+		if (i == 0 && j == col - 1) {
 			break;
 		}
+		if (j != col-1) {
+			if (i != 0 && (array_sum[i - 1][j] <= array_sum[i][j + 1])) {
+				cout << "-(" << i - 1 << "," << j << ")";
+				array_path[i - 1][j] = 1;
+				i--;
+			}
+			else {
+				cout << "-(" << i << "," << j + 1 << ")";
+				array_path[i][j+1] = 1;
+				j++;
+			}
+		}
+		else {
+			cout << "-(" << i - 1 << "," << j << ")";
+			array_path[i - 1][j] = 1;
+			j--;
+		}
 	}
-	//удаление динамических массивов из памяти
-	for(int i=0; i<row; i++){
-		delete[] array[i];
-		delete[] array_sum[i];
-		delete[] array_path[i];
-	}
-	delete[] array;
-	delete[] array_sum;
-	delete[] array_path;
+	cout << endl;
+	cout << endl;
 
+	array_path[row - 1][0] = 1;
+
+	for (i = 0; i < row; ++i) {
+		for (j = 0; j < col; ++j) {
+			if (array_path[i][j] == 1)
+				cout << text_style_color_start << array[i][j]<< text_style_end<<" ";
+			else
+				cout << array[i][j]<< " ";
+		}
+		cout << endl;
+	}
+
+	for(i=0; i<row; i++){
+		delete[] array[i], array_sum[i], array_path[i];
+	}
+	delete[] array, array_sum, array_path;
 	return 0;
 }
