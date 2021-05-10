@@ -1,5 +1,4 @@
 ﻿// reseach_operation.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
 #define _USE_MATH_DEFINES
 #include <iostream>
 #include <math.h>
@@ -117,7 +116,7 @@ int main(){
 			else
 				cout<<array[i][j]<< " ";
 		}
-		cout << endl;
+		cout<<endl;
 	}
 
 	for(i=0; i<row; i++){
