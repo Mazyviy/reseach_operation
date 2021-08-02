@@ -27,13 +27,13 @@ function generate() {
 		array_main[i] = [];
 		array_sum[i] = [];
 		for (j = 0; j < variableY; j++) {
-			//array_main[i][j] = Math.ceil(Math.random()*100);
-			array_main[i][j] = fun(variableX - 1 - i, j);
+			array_main[i][j] = Math.ceil(Math.random()*1000);
+			//array_main[i][j] = fun(variableX - 1 - i, j);
 
 			array_sum[i][j] = 0;
 			var td_main = document.createElement("td");
 			td_main.innerHTML = array_main[i][j];
-			td_main.id = "td" + i + j;
+			td_main.id = "td" + i + "-" + j;
 			tr_main.appendChild(td_main);
 		}
 		tableMain.appendChild(tr_main);
@@ -43,8 +43,9 @@ function generate() {
 	for (j = variableY - 2; j >= 0; --j) {
 		array_sum[0][j] = array_sum[0][j + 1] + array_main[0][j];
 	}
+
 	for (i=1; i < variableX; ++i) {
-		array_sum[i][variableX - 1] = array_sum[i - 1][variableY - 1] + array_main[i][variableY - 1];
+		array_sum[i][variableY - 1] = array_sum[i - 1][variableY - 1] + array_main[i][variableY - 1];
 		for (j = variableY - 2; j >= 0; --j) {
 			if(array_sum[i - 1][j] <= array_sum[i][j + 1]) {
 				array_sum[i][j] = array_main[i][j] + array_sum[i - 1][j];
@@ -57,7 +58,7 @@ function generate() {
 
 	j = 0;
 	i = variableX - 1;
-	var metka = document.getElementById("td" + i + j);
+	var metka = document.getElementById("td" + i + "-" + j);
 	metka.style.background = "green";
 
 	while (true) {
@@ -67,29 +68,28 @@ function generate() {
 		if (j != variableY - 1) {
 			if (i != 0 && (array_sum[i - 1][j] <= array_sum[i][j + 1])) {
 				i--;
-				metka = document.getElementById("td" + i + j);
+				metka = document.getElementById("td" + i + "-" + j);;
 				metka.style.background = "green";
 			}
 			else {
 				j++;
-				metka = document.getElementById("td" + i + j);
+				metka = document.getElementById("td" + i + "-" + j);;
 				metka.style.background = "green";
 			}
 		}
 		else {
 			if( j != variableY - 1) {
 				j--;
-				metka = document.getElementById("td" + i + j);
+				metka = document.getElementById("td" + i + "-" + j);;
 				metka.style.background = "green";
 			}
 			else {
 				i--;
-				metka = document.getElementById("td" + i + j);
+				metka = document.getElementById("td" + i + "-" + j);;
 				metka.style.background = "green";
 			}
 		}
 	}
-	console.log(fun(0,0))
 }
 
 submitGenerate.addEventListener("click", generate);
