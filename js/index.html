@@ -1,19 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="css.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 	<h1>Лабораторная работа №5</h1>
 	<fieldset>
-		<legend>Размер матрицы</legend>
-		<label for="lengthX">X</label>
-		<input type="number" name="" min="0" max="20" id="lengthX"><br>
+		<legend>Функция / Размер матрицы</legend>
+		<select name = "listvar" id="listvar">
+			<option value = "1var" selected >1) 5*x+x*y^2+6*y</option>
+			<option value = "2var">2) 1+sin(2*pi*x/10)+y</option>
+			<option value = "3var">3) sin(2*pi*x/10)^2+x*y</option>
+			<option value = "4var">4) 1+sin(2*pi*y/10)^2+x</option>
+			<option value = "5var">5) 5*x+x*y^2+6*y</option>
+			<option value = "6var">6) 1+cos(2*pi*x/10)+y</option>
+			<option value = "7var">7) sin(2*pi*y/10)^2+x*y</option>
+			<option value = "8var">8) 1+cos(2*pi*x/10)+y^3</option>
+			<option value = "9var">9) 25*x+x^2*y + 6*x^2</option>
+			<option value = "10var">10) e^(-(x+y))*(1+cos(2*pi*y/10))</option>
+			<option value = "11var">11) sin(2*pi*x/10)+x*y</option>
+			<option value = "12var">12) x+y+e^(x+y)</option>
+			<option value = "13var">13) 15*y+x*y+6*y</option>
+			<option value = "14var">14) x^2+(y+1)^2</option>
+			<option value = "15var">15) e^(x+y)</option>
+			<option value = "16var">16) e^(-x)*(1+sin(2*pi*y/10))</option>
+			<option value = "17var">17) 5*x+x*y+6*y^2</option>
+			<option value = "18var">18) 1+sin(2*pi*x/10)+y</option>	
+			<option value = "19var">19) Math.sin(2*Math.PI*x/10)^2 + x*y</option>
+			<option value = "20var">20) 1+(Math.cos(2*Math.PI*y/10))^2 + x</option>
+			<option value = "21var">21) 35*x^3 + x^2 * y+ e^x + y</option>
+			<option value = "22var">22) 1+sin(2*pi*x/10)+y</option>
+			<option value = "23var">23) sin(2*pi*x/10)+ x^2 *y</option>
+			<option value = "24var">24) 1+sin(2*pi*y/10)+ x^2</option>	
+			<option value = "randomize">randomize</option>	
+		</select>
 		<label for="lengthY">Y</label>
-		<input type="number" name="" min="0" max="20" id="lengthY"><br>
+		<input type="number" name="" min="0" max="20" value="10" id="lengthY"><br>
+		<label for="lengthX">X</label>
+		<input type="number" name="" min="0" max="20" value="10" id="lengthX"><br>
 		<input type="submit" name="" id="submitGenerate" value="Generate">
 	</fieldset>
 	<table id="tableMain"></table>
-	<script type="text/javascript" src="mainjs.js"></script>
+	<p id="way"></p>
+	<script type="text/javascript" src="script.js"></script>
 </body>
 </html>
