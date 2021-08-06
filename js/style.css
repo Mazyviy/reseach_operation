@@ -1,0 +1,22 @@
+fieldset{
+	width: 200px;
+	border-radius: 5px; 
+}
+fieldset input[type="number"], #listvar{
+	margin-bottom: 4px;
+}
+#listvar{
+	width: 100%;
+}
+#tableMain{
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 5px;
+	margin-top: 10px;
+}
+#tableMain td{
+	border: 1px solid black;
+	vertical-align: middle;
+	text-align: center;
+	padding: 3px;
+}
